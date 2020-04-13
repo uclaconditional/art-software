@@ -1,0 +1,4 @@
+.env
+art-software-5624b11287ef.json
+node_modules/*
+*.DS_Store
