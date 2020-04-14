@@ -4,10 +4,11 @@
     <title>Search | Art + Software</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <!-- <script src='jquery.fileupload.js'></script> -->
-    <script src='main.js'></script>
+    <script src="/js/search.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
-    <form method="POST" action="/search" enctype="application/x-www-form-urlencoded">
+    <form method="POST" action="javascript:submit()" enctype="application/x-www-form-urlencoded">
       <label for="name">Search by name:</label><br>
       <input type="text" id="name" name="name"><br>
 
@@ -15,9 +16,14 @@
       <input type="text" id="tag" name="tag"><br>
 
       <div>
-          <input type="submit" value="Submit" />
+        <input type="submit" value="Submit" />
       </div>
   </form>
+
+  <section id="results">
+
+  </section>
+
 
   </body>
 </html>

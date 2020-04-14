@@ -29,11 +29,11 @@ const insertDocument = function(doc, callback) {
   });
 };
 
-const findDocuments = function(callback) {
+const findDocuments = function(query, callback) {
   // Get the documents collection
   const collection = db.collection('art-software');
   // Find some documents
-  collection.find({}).toArray(function(err, docs) {
+  collection.find(query).toArray(function(err, docs) {
     assert.equal(err, null);
     console.log("Found the following records");
     console.log(docs)
@@ -66,7 +66,11 @@ app.post('/upload', uploadHandler.any(), (req, res) => {
 
 app.post('/search', (req, res) => {
   console.log(req.body);
-  findDocuments((data) => {
+  let query = {};
+  if (req.body.name) {
+    query.name = { $regex: req.body.name, $options: 'i' };
+  }
+  findDocuments(query, (data) => {
     res.json(data);
   })
 });
