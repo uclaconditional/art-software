@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Submit | Art + Software</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <!-- <script src='jquery.fileupload.js'></script> -->
+    <script src="main.js"></script>
+  </head>
+  <body>
+    <form method="POST" action="/upload" enctype="multipart/form-data">
+      <label for="fname">First name:</label><br>
+      <input type="text" id="fname" name="fname"><br>
+
+      <label for="lname">Last name:</label><br>
+      <input type="text" id="lname" name="lname"><br>
+
+      <label for="tags">Tags (comma separated):</label><br>
+      <textarea type="text" id="tags" name="tags"></textarea>
+      
+      <div>
+          <label>Select multiple images:</label>
+          <input type="file" name="multiple_images" multiple />
+      </div>
+
+      <div>
+          <input type="submit" value="Submit" />
+      </div>
+  </form>
+
+  </body>
+</html>
