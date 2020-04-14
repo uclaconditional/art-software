@@ -13,9 +13,11 @@
 * https://github.com/ARozar/multer-google-storage#readme
 * https://cloud.google.com/appengine/docs/flexible/nodejs/using-cloud-storage
 * https://github.com/mongodb/node-mongodb-native
+* https://docs.mongodb.com/manual/reference/mongo-shell/
 * https://cloud.mongodb.com/v2/5e560cb0edfd7b3e21f640cf#clusters
 * https://cloud.google.com/storage/docs/gsutil_install
 * https://cloud.google.com/storage/docs/gsutil/commands/cors
+* http://raw.githack.com/MrRio/jsPDF/master/docs/index.html
 
 
 # Digital Ocean
