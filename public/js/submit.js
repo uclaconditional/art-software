@@ -5,7 +5,7 @@ $(document).ready(() => {
 function submit() {
   $('form').hide();
   $('#uploading').show();
-  let formData =new FormData($('form')[0]);// $('form').serialize();
+  let formData =new FormData($('form')[0]);
 
   $.ajax({
     type: 'POST',

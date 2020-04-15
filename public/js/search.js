@@ -5,7 +5,7 @@ $(document).ready(() => {
   $('#pdf').click(exportPDF);
 });
 
-function submit() {
+const submit = () => {
   console.log('submit')
   $.post('/search', $('form').serialize(), (res) => {
     data = res;
@@ -19,7 +19,7 @@ function submit() {
   })
 }
 
-const project = (data) => `
+const project = data => `
 <div id="${data._id}" class="work">
   <div>${data['artist-name']}</div>
   <div><a href="mailto:${data['artist-email']}">${data['artist-email']}</a></div>
@@ -40,13 +40,20 @@ const project = (data) => `
 const exportPDF = () => {
   if (!data) return;
   let doc = new jsPDF();
+  doc.setFontSize(10);
+  doc.setFont('courier');
   doc.deletePage(1);
-  data.forEach((project) => {
+  data.forEach(work => {
     doc.addPage('letter', 'portrait');
-    doc.text(20, 20, project.name);
-    doc.text(20, 60, project.title);
-    let img = $('#'+project._id+' img');
-    doc.addImage(img[0], 'JPEG', 20, 100, 100, 100);
+    let y = 20;
+    for (const prop in work) {
+      if (work[prop] && prop !== 'files' && prop !== '_id' && prop !== 'timestamp') {
+        doc.text(20, y, work[prop]);
+        y += 5;
+      }
+    }
+    let img = $('#'+work._id+' img');
+    doc.addImage(img[0], 'JPEG', 20, y+5, 50, 50*img.height()/img.width());
   });
   doc.save('Test.pdf');
 }
