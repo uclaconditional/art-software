@@ -1,4 +1,4 @@
-# Setup
+## Setup
 0. Install [nodejs](https://nodejs.org/en/)
 0. Clone repo: `git clone git@github.com:lmccart/art-software.git`
 0. Navigate to repo: `cd art-software`
