@@ -1,8 +1,10 @@
 # Setup
-* install nodejs
-* clone repo: `git clone git@github.com:lmccart/art-software.git`
-* `cd art-software`
-* `npm install`
+0. Install [nodejs](https://nodejs.org/en/)
+0. Clone repo: `git clone git@github.com:lmccart/art-software.git`
+0. `cd art-software`
+0. `npm install`
+0. Copy in `.env` and `art-software-5624b11287ef.json` files.
+0. `node server.js`, open `http://localhost:3000
 
 
 # Running
