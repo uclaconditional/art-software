@@ -8,62 +8,67 @@
     <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
-    <h1>Submit</h1>
-    <a href='/search'>Search the archive</a>
-    <form method="POST"  action="javascript:submit()" enctype="multipart/form-data">
-      <!-- ARTIST -->
-      <label for="artist-name">Artist Name:</label>
-      <input type="text" id="artist-name" name="artist-name">
+    <a href='#main' class='sr-only'>Skip to content</a>
+    <nav>
+      <a href='/search'>Search the archive</a>
+    </nav>
+    <section id='main'>
+      <h1>Submit</h1>
 
-      <label for="artist-email">Artist Email:</label>
-      <input type="email" id="artist-email" name="artist-email">
+      <form method="POST"  action="javascript:submit()" enctype="multipart/form-data">
+        <!-- ARTIST -->
+        <label for="artist-name">Artist Name:</label>
+        <input type="text" id="artist-name" name="artist-name">
 
-      <label for="artist-url">Artist URL:</label>
-      <input type="url" id="artist-url" name="artist-url">
+        <label for="artist-email">Artist Email:</label>
+        <input type="email" id="artist-email" name="artist-email">
 
-      <label for="artist-bio">Artist Bio:</label>
-      <textarea type="text" id="artist-bio" name="artist-bio"></textarea>
+        <label for="artist-url">Artist URL:</label>
+        <input type="url" id="artist-url" name="artist-url">
 
-      <label for="artist-country-residence">Artist Country of Residence:</label>
-      <select id="artist-country-residence" name="artist-country-residence">
-        <option value=""></option>
-      </select>
+        <label for="artist-bio">Artist Bio:</label>
+        <textarea type="text" id="artist-bio" name="artist-bio"></textarea>
 
-      <label for="artist-country-birth">Artist Country of Birth:</label>
-      <select id="artist-country-birth" name="artist-country-birth">
-        <option value=""></option>
-      </select>
+        <label for="artist-country-residence">Artist Country of Residence:</label>
+        <select id="artist-country-residence" name="artist-country-residence">
+          <option value=""></option>
+        </select>
 
-      <label for="artist-year-birth">Artist Year of Birth:</label>
-      <input type="number" id="artist-year-birth" name="artist-year-birth">
+        <label for="artist-country-birth">Artist Country of Birth:</label>
+        <select id="artist-country-birth" name="artist-country-birth">
+          <option value=""></option>
+        </select>
 
-      <label for="artist-gender">Artist Gender:</label>
-      <input type="text" id="artist-gender" name="artist-gender">
+        <label for="artist-year-birth">Artist Year of Birth:</label>
+        <input type="number" id="artist-year-birth" name="artist-year-birth">
 
-      <!-- WORK -->
-      <label for="work-title">Work Title:</label>
-      <input type="text" id="work-title" name="work-title">
+        <label for="artist-gender">Artist Gender:</label>
+        <input type="text" id="artist-gender" name="artist-gender">
 
-      <label for="work-description">Work Description:</label>
-      <textarea type="text" id="work-description" name="work-description"></textarea>
+        <!-- WORK -->
+        <label for="work-title">Work Title:</label>
+        <input type="text" id="work-title" name="work-title">
 
-      <label for="work-year">Work Year:</label>
-      <input type="number" id="work-year" name="work-year">
-      
-      <label for="work-image">Work Image:</label>
-      <input type="file" id="work-image" name="work-image" multiple />
+        <label for="work-description">Work Description:</label>
+        <textarea type="text" id="work-description" name="work-description"></textarea>
 
-      <label for="work-alt">Work Alt Text:</label>
-      <textarea type="text" id="work-alt" name="work-alt"></textarea>
+        <label for="work-year">Work Year:</label>
+        <input type="number" id="work-year" name="work-year">
+        
+        <label for="work-image">Work Image:</label>
+        <input type="file" id="work-image" name="work-image" multiple />
 
-      <label for="work-categories">Work Categories:</label>
-      <select id="work-categories" name="work-categories" multiple></select>
+        <label for="work-alt">Work Alt Text:</label>
+        <textarea type="text" id="work-alt" name="work-alt"></textarea>
 
-      <div>
-          <input type="submit" value="submit" />
-      </div>
-  </form>
+        <label for="work-categories">Work Categories:</label>
+        <select id="work-categories" name="work-categories" multiple></select>
 
+        <div>
+            <input type="submit" value="submit" />
+        </div>
+    </form>
+  </section>
   <div id="uploading" style="display:none">Uploading...</div>
   <div id="thankyou" style="display:none">Thank you. <a href='/submit'>Submit another work</a> or <a href='/search'>search the archive</a></div>
 
