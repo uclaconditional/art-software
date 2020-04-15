@@ -32,6 +32,7 @@ input[type='submit'] {
   width: 40em;
   display: inline-block;
   margin-left: 2em;
+  margin-bottom: 2em;
   vertical-align: top;
 }
 .work div {
