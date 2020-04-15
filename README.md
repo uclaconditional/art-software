@@ -33,3 +33,4 @@
 * https://www.digitalocean.com/docs/droplets/how-to/connect-with-ssh/
 * https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-18-04 (mongodb)
 * https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-mongodb-on-ubuntu-16-04#part-two-securing-mongodb (mongodb)
+* https://pm2.keymetrics.io/ (PM2 task runner)
