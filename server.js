@@ -1,7 +1,6 @@
 const path = require('path');
 const express = require('express');
 const app = express();
-const port = 3000;
 const multer = require('multer');
 const multerGoogleStorage = require('multer-google-storage');
 const MongoClient = require('mongodb').MongoClient;
@@ -10,7 +9,7 @@ let db;
 
 require('dotenv').config();
 
-app.listen(port, () => console.log(`Example app listening on ${port}`));
+app.listen(process.env.PORT, () => console.log(`Example app listening on `+process.env.PORT));
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
