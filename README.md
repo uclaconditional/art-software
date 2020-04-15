@@ -27,10 +27,9 @@
 * PDF Generation
   * http://raw.githack.com/MrRio/jsPDF/master/docs/index.html (client-side, currently using)
   * https://github.com/foliojs/pdfkit (server-side, alternative option)
-
-## Digital Ocean
-* `ssh root@167.99.175.36`
-* https://www.digitalocean.com/docs/droplets/how-to/connect-with-ssh/
-* https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-18-04 (mongodb)
-* https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-mongodb-on-ubuntu-16-04#part-two-securing-mongodb (mongodb)
-* https://pm2.keymetrics.io/ (PM2 task runner)
+* DigitalOcean
+  * `ssh root@167.99.175.36`
+  * https://www.digitalocean.com/docs/droplets/how-to/connect-with-ssh/
+  * https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-18-04 (mongodb)
+  * https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-mongodb-on-ubuntu-16-04#part-two-securing-mongodb (mongodb)
+  * https://pm2.keymetrics.io/ (PM2 task runner)
