@@ -1,33 +1,39 @@
 let data;
 
 $(document).ready(() => {
-  $('#pdf').click(exportPDF);
   populateForm();
+  $('#pdf').click(exportPDF);
 });
-
-function populateForm() {
-  $.get('/metadata', (data) => {
-    data.categories.forEach(c => {
-      $('#work-categories').append('<option value="'+c+'">'+c+'</option>');
-    });
-  });
-}
 
 function submit() {
   console.log('submit')
   $.post('/search', $('form').serialize(), (res) => {
-    console.log(res);
     data = res;
-    $('#results').html(res.map(project).join(''));
+    if (res.length) {
+      $('#results').html(res.map(project).join(''));
+    } else {
+      $('#results').html('No results found.');
+    }
+    $('#results-section').show();
+    $('#pdf-section').show();
   })
 }
 
-const project = ({ _id, name, title, tags, files, alt }) => `
-<div id="${_id}">
-  <div>${name}</div>
-  <div>${title}</div>
-  <div>${tags}</div>
-  <img src="${files[0].path}" alt="${alt}">
+const project = (data) => `
+<div id="${data._id}" class="work">
+  <div>${data['artist-name']}</div>
+  <div><a href="mailto:${data['artist-email']}">${data['artist-email']}</a></div>
+  <div><a href="${data['artist-url']}">${data['artist-url']}</a></div>
+  <div>${data['artist-bio']}</div>
+  <div>${data['artist-country-residence']}</div>
+  <div>${data['artist-country-birth']}</div>
+  <div>${data['artist-year-birth']}</div>
+  <div>${data['artist-gender']}</div>
+  <div>${data['work-title']}</div>
+  <div>${data['work-year']}</div>
+  <div>${data['work-description']}</div>
+  <div>${data['work-categories']}</div>
+  <img src="${data.files[0].path}" alt="${data['work-alt']}">
 </div>
 `;
 

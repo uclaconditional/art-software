@@ -3,7 +3,7 @@
   <head>
     <title>Search | Art + Software</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <!-- <script src='jquery.fileupload.js'></script> -->
+    <script src="/js/shared.js"></script>
     <script src="/js/search.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/style.css">
@@ -11,31 +11,56 @@
   <body>
     <form method="POST" action="javascript:submit()" enctype="application/x-www-form-urlencoded">
       <h1>Search</h1>
-      <label for="artist-name">Artist Name:</label><br>
-      <input type="text" id="artist-name" name="artist-name"><br>
+      <label for="artist-name">Artist Name:</label>
+      <input type="text" id="artist-name" name="artist-name">
+
+      <label for="artist-country-residence">Artist Country of Residence:</label>
+      <select id="artist-country-residence" name="artist-country-residence">
+        <option value=""></option>
+      </select>
+
+      <label for="artist-country-birth">Artist Country of Birth:</label>
+      <select id="artist-country-birth" name="artist-country-birth">
+        <option value=""></option>
+      </select>
+
+      <label for="artist-year-birth">Artist Year of Birth:</label>
+      <input type="number" id="artist-year-birth" name="artist-year-birth">
 
       <label for="artist-gender">Artist Gender:</label>
-      <input type="text" id="artist-gender" name="artist-gender">
+      <input type="text" id="artist-gender" name="artist-gender" disabled>
 
       <label for="work-title">Work Title:</label>
       <input type="text" id="work-title" name="work-title">
 
-      <label for="work-year">Work Year:</label>
-      <input type="number" id="work-year" name="work-year">
-
-      <label for="work-categories">Work Categories:</label>
-      <select id="work-categories" name="work-categories"></select>
+      <label>Work Year Range:</label>
+      <div>
+        <label class='sr-only' for=work-year-start>Range Start:</label>
+        <input type="number" id="work-year-start" name="work-year-start" class='short'> to 
+        
+        <label class='sr-only' for=work-year-start>Range End:</label>
+        <input type="number" id="work-year-end" name="work-year-end" class='short'>
+      </div>
+      
+      <label for="work-categories">Work Category:</label>
+      <select id="work-categories" name="work-categories">
+        <option value=""></option>
+      </select>
 
       <div>
         <input type="submit" value="Submit" />
       </div>
   </form>
 
-  <section id="results">
-
+  <section id="results-section" style='display:none'>
+    <h1>Results</h1>
+    <div id="results"></div>
   </section>
 
-  <button id='pdf'>Export PDF</button>
+  <section id="pdf-section" style='display:none'>
+    <h1>Export PDF</h1>
+    <button id='pdf'>Export PDF</button>
+  </section>
 
   </body>
 </html>

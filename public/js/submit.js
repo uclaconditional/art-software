@@ -2,8 +2,6 @@ $(document).ready(() => {
   populateForm();
 });
 
-
-
 function submit() {
   $('form').hide();
   $('#uploading').show();
@@ -21,13 +19,4 @@ function submit() {
       $('#thankyou').show();
     }
   })
-}
-
-
-function populateForm() {
-  $.get('/metadata', (data) => {
-    data.categories.forEach(c => {
-      $('#work-categories').append('<option value="'+c+'">'+c+'</option>');
-    });
-  });
 }

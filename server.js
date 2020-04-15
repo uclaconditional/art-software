@@ -33,7 +33,6 @@ const findDocuments = function(query, callback) {
   const collection = db.collection('art-software');
   collection.find(query).toArray(function(err, docs) {
     assert.equal(err, null);
-    console.log("Found the following records");
     console.log(docs)
     callback(docs);
   });
@@ -49,29 +48,48 @@ const uploadHandler = multer({
 });
 
 app.post('/upload', uploadHandler.any(), (req, res) => {
-  // console.log(req.body)
-  console.log(req)
   let doc = req.body;
   doc.timestamp = new Date().toISOString();
   doc.files = req.files;
-  insertDocument(doc, (res) => {
-    // console.log(res);
-  });
+  insertDocument(doc, res => {});
   res.json({success: true});
 });
 
-
+/* SEARCH */
 app.post('/search', (req, res) => {
   console.log(req.body);
   let query = {};
-  if (req.body.name) {
-    query.name = { $regex: req.body.name, $options: 'i' };
+  if (req.body['artist-name']) {
+    query['artist-name'] = { $regex: req.body['artist-name'], $options: 'i' };
   }
-  findDocuments(query, (data) => {
-    res.json(data);
-  })
+  if (req.body['artist-country-residence']) {
+    query['artist-country-residence'] = req.body['artist-country-residence'];
+  }
+  if (req.body['artist-country-birth']) {
+    query['artist-country-birth'] = req.body['artist-country-birth'];
+  }
+  if (req.body['artist-year-birth']) {
+    query['artist-year-birth'] = req.body['artist-year-birth'];
+  }
+  /* GENDER TODO */
+
+  if (req.body['work-title']) {
+    query['work-title'] = { $regex: req.body['work-title'], $options: 'i' };
+  }
+
+  if (req.body['work-year-start'] || req.body['work-year-end']) {
+    let ys = req.body['work-year-start'] || '0';
+    let ye = req.body['work-year-end'] || '3000';
+    query['work-year'] = { $gte: ys, $lte: ye };
+  }
+  
+  if (req.body['work-categories']) {
+    query['work-categories'] = req.body['work-categories'];
+  }
+  findDocuments(query, data => res.json(data));
 });
 
+/* METADATA */
 app.get('/metadata', (req, res) => {
   const collection = db.collection('metadata');
   collection.findOne({}, (err, docs) => {
