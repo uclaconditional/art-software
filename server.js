@@ -10,7 +10,7 @@ let db;
 
 require('dotenv').config();
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+app.listen(port, () => console.log(`Example app listening on ${port}`));
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
