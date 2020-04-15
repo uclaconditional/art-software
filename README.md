@@ -24,6 +24,7 @@
 * MongoDB
   * https://github.com/mongodb/node-mongodb-native
   * https://docs.mongodb.com/manual/reference/mongo-shell/
+  * [mongo compass tool](https://www.mongodb.com/products/compass) - gui for cloud db
 * PDF Generation
   * http://raw.githack.com/MrRio/jsPDF/master/docs/index.html (client-side, currently using)
   * https://github.com/foliojs/pdfkit (server-side, alternative option)
