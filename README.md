@@ -1,4 +1,4 @@
-### Art + Software
+# Art + Software
 
 ## Setup
 0. Install [nodejs](https://nodejs.org/en/)
