@@ -1,3 +1,5 @@
+### Art + Software
+
 ## Setup
 0. Install [nodejs](https://nodejs.org/en/)
 0. Clone repo: `git clone git@github.com:lmccart/art-software.git`
@@ -5,11 +7,11 @@
 0. Install dependencies: `npm install`
 0. Copy in `.env` and `art-software-5624b11287ef.json` files. (Email Lauren)
 
-# Running
+## Running
 * `node server.js`
 * view at http://localhost:3000
 
-# Reference
+## Reference
 * Google Cloud Hosting
   * https://console.cloud.google.com/storage/browser/ (console)
   * https://cloud.google.com/appengine/docs/flexible/nodejs/using-cloud-storage
@@ -26,7 +28,7 @@
   * http://raw.githack.com/MrRio/jsPDF/master/docs/index.html (client-side, currently using)
   * https://github.com/foliojs/pdfkit (server-side, alternative option)
 
-# Digital Ocean
+## Digital Ocean
 * `ssh root@167.99.175.36`
 * https://www.digitalocean.com/docs/droplets/how-to/connect-with-ssh/
 * https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-18-04 (mongodb)
