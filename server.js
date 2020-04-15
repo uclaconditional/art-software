@@ -12,10 +12,10 @@ require('dotenv').config();
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-MongoClient.connect(process.env.MONGO_URL, function(err, client) {
+MongoClient.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
   assert.equal(null, err);
   console.log("Connected successfully to server");
   db = client.db('admin');
@@ -30,9 +30,7 @@ const insertDocument = function(doc, callback) {
 };
 
 const findDocuments = function(query, callback) {
-  // Get the documents collection
   const collection = db.collection('art-software');
-  // Find some documents
   collection.find(query).toArray(function(err, docs) {
     assert.equal(err, null);
     console.log("Found the following records");
@@ -40,7 +38,6 @@ const findDocuments = function(query, callback) {
     callback(docs);
   });
 };
-
 
 /* UPLOADS */
 const uploadHandler = multer({
@@ -52,15 +49,15 @@ const uploadHandler = multer({
 });
 
 app.post('/upload', uploadHandler.any(), (req, res) => {
+  // console.log(req.body)
+  console.log(req)
   let doc = req.body;
   doc.timestamp = new Date().toISOString();
-  doc.files = [];
-  req.files.forEach(f => doc.files.push(f));
+  doc.files = req.files;
   insertDocument(doc, (res) => {
     // console.log(res);
   });
-  console.log(req.body)
-  res.json(req.files);
+  res.json({success: true});
 });
 
 
@@ -73,4 +70,12 @@ app.post('/search', (req, res) => {
   findDocuments(query, (data) => {
     res.json(data);
   })
+});
+
+app.get('/metadata', (req, res) => {
+  const collection = db.collection('metadata');
+  collection.findOne({}, (err, docs) => {
+    assert.equal(err, null);
+    res.json(docs);
+  });
 });

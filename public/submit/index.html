@@ -4,35 +4,62 @@
     <title>Submit | Art + Software</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <!-- <script src='jquery.fileupload.js'></script> -->
-    <script src="main.js"></script>
+    <script src="/js/submit.js"></script>
     <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
-    <form method="POST" action="/upload" enctype="multipart/form-data">
-      <label for="name">Name:</label><br>
-      <input type="text" id="name" name="name"><br>
+    <form method="POST"  action="javascript:submit()" enctype="multipart/form-data">
+      <!-- ARTIST -->
+      <label for="artist-name">Artist Name:</label>
+      <input type="text" id="artist-name" name="artist-name">
 
-      <label for="title">Title:</label><br>
-      <input type="text" id="title" name="title"><br>
+      <label for="artist-email">Artist Email:</label>
+      <input type="email" id="artist-email" name="artist-email">
 
-      <label for="year">Year:</label><br>
-      <input type="text" id="year" name="year"><br>
+      <label for="artist-url">Artist URL:</label>
+      <input type="url" id="artist-url" name="artist-url">
 
-      <label for="tags">Tags (comma separated):</label><br>
-      <textarea type="text" id="tags" name="tags"></textarea>
+      <label for="artist-bio">Artist Bio:</label>
+      <textarea type="text" id="artist-bio" name="artist-bio"></textarea>
+
+      <label for="artist-country-residence">Artist Country of Residence:</label>
+      <input type="text" id="artist-country-residence" name="artist-country-residence">
+
+      <label for="artist-country-birth">Artist Country of Birth:</label>
+      <input type="text" id="artist-country-birth" name="artist-country-birth">
+
+      <label for="artist-year-birth">Artist Year of Birth:</label>
+      <input type="number" id="artist-year-birth" name="artist-year-birth">
+
+      <label for="artist-gender">Artist Gender:</label>
+      <input type="text" id="artist-gender" name="artist-gender">
+
+      <!-- WORK -->
+      <label for="work-title">Work Title:</label>
+      <input type="text" id="work-title" name="work-title">
+
+      <label for="work-description">Work Description:</label>
+      <textarea type="text" id="work-description" name="work-description"></textarea>
+
+      <label for="work-year">Work Year:</label>
+      <input type="number" id="work-year" name="work-year">
       
-      <div>
-          <label for="images">Select image:</label>
-          <input type="file" id="images" name="images" multiple /><br>
+      <label for="work-image">Work Image:</label>
+      <input type="file" id="work-image" name="work-image" multiple />
 
-          <label for="alt">Alt text:</label><br>
-          <textarea type="text" id="alt" name="alt"></textarea><br>
-      </div>
+      <label for="work-alt">Work Alt Text:</label>
+      <textarea type="text" id="work-alt" name="work-alt"></textarea>
+
+      <label for="work-categories">Work Categories:</label>
+      <select id="work-categories" name="work-categories" multiple></select>
 
       <div>
-          <input type="submit" value="Submit" />
+          <input type="submit" value="submit" />
       </div>
   </form>
+
+  <div id="uploading" style="display:none">Uploading...</div>
+  <div id="thankyou" style="display:none">Thank you. <a href='/submit'>Submit another work.</a></div>
 
   </body>
 </html>

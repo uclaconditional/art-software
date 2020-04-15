@@ -1,8 +1,40 @@
 $(document).ready(() => {
-  // populateForm();
+  populateForm();
 });
 
 
+
 function submit() {
-  
+  $('form').hide();
+  $('#uploading').show();
+  let formData =new FormData($('form')[0]);// $('form').serialize();
+//  data.append('file', $('#file')[0].files[0]);
+
+  // let files = $('#work-image')[0].files;
+  // for (let i=0; i<files.length; i++) {
+  //   formData.append('file', files[i])
+  // }
+  console.log(formData)
+
+  $.ajax({
+    type: 'POST',
+    url: '/upload',
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: (res) => {
+      console.log(res);
+      $('#uploading').hide();
+      $('#thankyou').show();
+    }
+  })
+}
+
+
+function populateForm() {
+  $.get('/metadata', (data) => {
+    data.categories.forEach(c => {
+      $('#work-categories').append('<option value="'+c+'">'+c+'</option>');
+    });
+  });
 }

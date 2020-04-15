@@ -1,3 +1,24 @@
+body {
+  font-family: monospace;
+  margin: 1em;
+}
+
 img {
+  width: 10em;
+}
+
+input, textarea, select {
+  display: block;
+  margin-bottom: 1em;
+  width: 40em;
+  font-family: monospace;
+  font-size: 1.0em;
+}
+
+textarea {
+  height: 3em;
+}
+
+input[type='submit'] {
   width: 10em;
 }
