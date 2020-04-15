@@ -2,8 +2,16 @@ let data;
 
 $(document).ready(() => {
   $('#pdf').click(exportPDF);
+  populateForm();
 });
 
+function populateForm() {
+  $.get('/metadata', (data) => {
+    data.categories.forEach(c => {
+      $('#work-categories').append('<option value="'+c+'">'+c+'</option>');
+    });
+  });
+}
 
 function submit() {
   console.log('submit')
@@ -13,7 +21,6 @@ function submit() {
     $('#results').html(res.map(project).join(''));
   })
 }
-
 
 const project = ({ _id, name, title, tags, files, alt }) => `
 <div id="${_id}">

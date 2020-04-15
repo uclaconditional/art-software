@@ -8,13 +8,6 @@ function submit() {
   $('form').hide();
   $('#uploading').show();
   let formData =new FormData($('form')[0]);// $('form').serialize();
-//  data.append('file', $('#file')[0].files[0]);
-
-  // let files = $('#work-image')[0].files;
-  // for (let i=0; i<files.length; i++) {
-  //   formData.append('file', files[i])
-  // }
-  console.log(formData)
 
   $.ajax({
     type: 'POST',
