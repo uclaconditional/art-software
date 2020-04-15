@@ -1,6 +1,6 @@
 [
   {
-    "origin": ["http://localhost:3000", "167.99.175.36"],
+    "origin": ["http://localhost:3000", "http://167.99.175.36:3000"],
     "responseHeader": ["Content-Type"],
     "method": ["GET", "PUT"],
     "maxAgeSeconds": 3600
