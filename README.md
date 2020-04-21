@@ -13,7 +13,7 @@
 
 ## Reference
 
-The server component is currently hosted on a DigitalOcean droplet (http://167.99.175.36), using [Node.js](https://nodejs.org/) and [mongoDB](https://www.mongodb.com/). The uploaded artist files are hosted on [Google Cloud Storage](https://cloud.google.com/storage). Eventually, we would like to move this off of DigitalOcean and onto the DMA server. We are currently using [jSPDF](https://github.com/MrRio/jsPDF) to generate PDFs on the client side. This is a temporary test and we are exploring other tools for this.
+The server component is currently hosted on a DigitalOcean droplet (http://167.99.175.36), using [Node.js](https://nodejs.org/) and [mongoDB](https://www.mongodb.com/). The uploaded artist files are hosted on [Google Cloud Storage](https://cloud.google.com/storage). Eventually, we would like to move this off of DigitalOcean and onto the DMA server. We are currently using [jSPDF](https://github.com/MrRio/jsPDF) to generate PDFs on the client side. This is a temporary test and we are exploring other tools.
 
 The [Backend spec](https://docs.google.com/document/d/1N-gVMw1AJQD5tHP979i_f6oDtJRyLK1zcQ3C2zq8dmE/edit) outlines the API the server provides. TODO: Move this document to this readme once API is more stable.
 
