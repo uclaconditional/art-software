@@ -5,20 +5,20 @@ $(document).ready(() => {
   if (token) {
     $.post('/account', {token: token}, (res) => {
       console.log(res)
-      if (res.success) displayForm(res);
+      if (res.success) window.location = '/submit'
       else displayError(res);
     });
   } else {
     $.get('/authenticated', (res) => {
       console.log(res)
       if (res.success) displayForm(res);
-      else displayError(res);
+      else window.location = '/magic';
     });
   }
 
 });
 
-function submit() {
+const submit = () => {
   $('form').hide();
   $('#uploading').show();
   let formData = new FormData($('form')[0]);
@@ -35,9 +35,9 @@ function submit() {
       $('#thankyou').show();
     }
   })
-}
+};
 
-function displayForm(res) {
+const displayForm = (res) => {
   $('#artist-email').val(res.email);
   $('#sorry').hide();
   $('#form').show();
@@ -52,8 +52,8 @@ function displayForm(res) {
       }
     }
   });
-}
+};
 
-function displayError() {
+const displayError = () => {
   $('#sorry').show();
-}
+};
