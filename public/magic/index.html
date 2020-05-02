@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Submit | Art + Software</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="/js/shared.js"></script>
+    <script src="/js/magic.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/jpeg" href="/favicon.jpg">
+  </head>
+  <body>
+    <a href='#main' class='sr-only'>Skip to content</a>
+    <nav>
+      <a href='/search'>Search the archive</a>
+    </nav>
+    <section id='main'>
+      <h1>Submit</h1>
+      <form method="POST" action="javascript:submit()" enctype="application/x-www-form-urlencoded">
+        <p>Submit your email address to get a magic link.</p>
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email">
+        <div>
+          <input type="submit" value="Submit" />
+        </div>
+      </form>
+    
+  </section>
+  <div id="thankyou" style="display:none">Thank you. Check your email for a link to submit your work.</div>
+
+  </body>
+</html>

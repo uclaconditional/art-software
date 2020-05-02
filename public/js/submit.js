@@ -1,5 +1,17 @@
 $(document).ready(() => {
   populateForm();
+
+  const token = window.location.search.substring(1);
+  $.post('/account', {token: token}, (res) => {
+    console.log(res)
+    if (res.success) {
+      $('#artist-email').val(res.email);
+      $('#form').show();
+    }
+    else if (res.error) {
+      $('#sorry').show();
+    }
+  });
 });
 
 function submit() {

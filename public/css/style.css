@@ -4,6 +4,10 @@ body {
   margin-bottom: 5em;
 }
 
+nav {
+  margin-bottom: 1em;
+}
+
 h1 {
   font-size: 2.0em;
 }
