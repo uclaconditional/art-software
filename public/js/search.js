@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 let data;
 
 $(document).ready(() => {
@@ -8,6 +10,7 @@ $(document).ready(() => {
 const submit = () => {
   console.log('submit')
   $.post('/search', $('form').serialize(), (res) => {
+  // $.post('/search', {'_id': ObjectId('5e9656a809b1a709bd28dfc9')}, (res) => {
     data = res;
     if (res.length) {
       $('#results').html(res.map(project).join(''));
@@ -33,10 +36,9 @@ const project = data => `
   <div>${data['work-year']}</div>
   <div>${data['work-description']}</div>
   <div>${data['work-categories']}</div>
-  <img src="${data.files[0].path}" alt="${data['work-alt']}">
 </div>
 `;
-
+// <img src="${data.files[0].path}" alt="${data['work-alt']}">
 const exportPDF = () => {
   if (!data) return;
   let doc = new jsPDF();

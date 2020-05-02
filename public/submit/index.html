@@ -16,7 +16,7 @@
     <section id='main'>
       <h1>Submit</h1>
 
-      <div id='sorry'>Sorry! The link you've used has expired or is invalid. <a href="/magic">Please resubmit your email to get a new link.</a></div>
+      <div id='sorry' style='display:none'>Sorry! The link you've used has expired or is invalid. <a href="/magic">Please resubmit your email to get a new link.</a></div>
       <div id='form' style='display:none'>
         <form method="POST"  action="javascript:submit()" enctype="multipart/form-data">
           <!-- ARTIST -->
@@ -24,7 +24,7 @@
           <input type="text" id="artist-name" name="artist-name">
 
           <label for="artist-email">Contact Email:</label>
-          <input type="email" id="artist-email" name="artist-email" disabled=true>
+          <input type="email" id="artist-email" name="artist-email" readonly=true>
 
           <label for="artist-url">Artist URL:</label>
           <input type="url" id="artist-url" name="artist-url">
@@ -66,6 +66,8 @@
 
           <label for="work-categories">Work Categories:</label>
           <select id="work-categories" name="work-categories" multiple></select>
+
+          <input type="text" id="_id" name="_id">
 
           <div>
               <input type="submit" value="submit" />

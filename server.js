@@ -5,9 +5,14 @@ const app = express();
 const multer = require('multer');
 const multerGoogleStorage = require('multer-google-storage');
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId; 
 const assert = require('assert');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const parseurl = require('parseurl');
+
 let db;
 let hos
 
@@ -17,9 +22,42 @@ app.listen(process.env.PORT, () => console.log(`Example app listening on `+proce
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(cookieParser());
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: 'auto', maxAge: 60*60*24 }
+}));
+
+app.use(function (req, res, next) {
+  if (!req.session.views) {
+    req.session.views = {}
+  }
+
+  // get the url pathname
+  var pathname = parseurl(req).pathname
+
+  // count the views
+  req.session.views[pathname] = (req.session.views[pathname] || 0) + 1
+
+  next()
+})
+
+app.get('/foo', function (req, res) {
+  res.send('you viewed this page: ' + req.session.authenticated);
+})
+app.get('/bar', function (req, res) {
+  res.send('you viewed this page ' + req.session.views['/bar'] + ' times')
+});
+
+app.get('/authenticated', function (req, res) {
+  if (req.session.authenticated) res.json({success: true, email: req.session.authenticated});
+  else res.json({success: false});
+})
 
 /* DATABASE */
-MongoClient.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
+MongoClient.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
   assert.equal(null, err);
   console.log("Connected successfully to server");
   db = client.db('admin');
@@ -27,15 +65,36 @@ MongoClient.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTop
 
 const insertDocument = function(doc, callback) {
   const collection = db.collection('art-software');
-  collection.insertOne(doc, function(err, res) {
-    console.log('Inserted document into the collection');
-    callback(res);
-  });
+  collection.insertOne(doc)
+  .then((obj) => {
+    console.log('Inserted - ' + obj);
+    callback(obj);
+  })
+  .catch((err) => {
+    console.log('Error: ' + err);
+  })
+};
+
+const updateDocument = function(doc, callback) {
+  const collection = db.collection('art-software');
+  const _id = new ObjectId(doc._id);
+  delete doc._id;
+  collection.updateOne(
+    {_id: _id},
+    {$set: doc},
+    {upsert: true})
+    .then((obj) => {
+      console.log('Updated - ' + obj);
+      callback(obj);
+    })
+    .catch((err) => {
+        console.log('Error: ' + err);
+    })
 };
 
 const findDocuments = function(query, callback) {
   const collection = db.collection('art-software');
-  collection.find(query).toArray(function(err, docs) {
+  collection.find(query).toArray((err, docs) => {
     assert.equal(err, null);
     console.log(docs)
     callback(docs);
@@ -60,7 +119,7 @@ const transporter = nodemailer.createTransport({
 const login = (req, res) => {
   let email = req.body.email;
   if (!email) return res.status(codes.BAD_REQUEST).send({error: 'email is required'});
-  const token = jwt.sign({email}, process.env.JWT_SECRET, {expiresIn: 60});
+  const token = jwt.sign({email}, process.env.JWT_SECRET, {expiresIn: 60*60}); // valid for one hour
   const url = req.protocol + '://' + req.get('host') + '/submit?' + token;
   const mailOpts = {
     from: 'laurenleemccarthy@gmail.com',
@@ -95,6 +154,7 @@ const account = (req, res) => {
     res.json({succes: false, code: codes.FORBIDDEN, error: 'invalid jwt token'});
   }
   console.log(decoded);
+  req.session.authenticated = decoded.email;
   res.json({success: true, email: decoded.email});
 };
 
@@ -112,7 +172,8 @@ const upload = (req, res) => {
   let doc = req.body;
   doc.timestamp = new Date().toISOString();
   doc.files = req.files;
-  insertDocument(doc, res => {});
+  if (doc._id) updateDocument(doc, res => {});
+  else insertDocument(doc, res => {});
   res.json({success: true});
 };
 
@@ -120,6 +181,9 @@ const upload = (req, res) => {
 const search = (req, res) => {
   console.log(req.body);
   let query = {};
+  if (req.body['artist-email']) {
+    query['artist-email'] = { $regex: req.body['artist-email']};
+  }
   if (req.body['artist-name']) {
     query['artist-name'] = { $regex: req.body['artist-name'], $options: 'i' };
   }

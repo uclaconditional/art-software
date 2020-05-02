@@ -32,6 +32,8 @@ The [Backend spec](https://docs.google.com/document/d/1N-gVMw1AJQD5tHP979i_f6oDt
   * https://github.com/nodemailer/nodemailer
   * https://github.com/auth0/node-jsonwebtoken#readme
   * https://www.youtube.com/watch?v=JJ44WA_eV8E
+* Session Management
+  * https://github.com/expressjs/session
 * Google Cloud Storage
   * https://console.cloud.google.com/storage/browser/ (console)
   * https://cloud.google.com/appengine/docs/flexible/nodejs/using-cloud-storage
