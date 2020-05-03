@@ -24,7 +24,6 @@ const submit = () => {
   $('form').hide();
   $('#uploading').show();
   let formData = new FormData($('form')[0]);
-  console.log(formData)
   $.ajax({
     type: 'POST',
     url: '/upload',
@@ -78,7 +77,6 @@ const validate = () => {
 }
 
 const addWork = data => {
-  console.log('addwork')
   data['index'] = 'w'+$('.work').length;
   $('#works').append(workTemplate(data));
   populateWork(data['index']);
@@ -99,7 +97,7 @@ const workTemplate = data => `
   <textarea type="text" id="${data['index']}-work-credits" name="${data['index']}-work-credits"></textarea>
 
   <label for="${data['index']}-work-city" data-required="true">Primary City Where Work Was Created:</label>
-  <input type="number" id="${data['index']}-work-city" name="${data['index']}-work-city">
+  <input type="text" id="${data['index']}-work-city" name="${data['index']}-work-city">
 
   <label for="${data['index']}-work-image">Work Image:</label>
   <input type="file" id="${data['index']}-work-image" name="${data['index']}-work-image" multiple />

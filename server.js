@@ -170,6 +170,8 @@ const uploadHandler = multer({
 
 const upload = (req, res) => {
   let doc = req.body;
+  Object.keys(doc).forEach((key) => (doc[key] == "") && delete doc[key]); // clean empty fields
+  console.log(doc);
   doc.timestamp = new Date().toISOString();
   doc.files = req.files;
   if (doc._id) updateDocument(doc, res => {});
