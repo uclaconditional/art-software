@@ -23,7 +23,13 @@ The [Backend spec](https://docs.google.com/document/d/1N-gVMw1AJQD5tHP979i_f6oDt
   * https://www.digitalocean.com/docs/droplets/how-to/connect-with-ssh/
   * https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-18-04 (mongodb)
   * https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-mongodb-on-ubuntu-16-04#part-two-securing-mongodb (mongodb)
+* PM2
   * https://pm2.keymetrics.io/ (PM2 task runner)
+  * `pm2 start server.js`
+  * `pm2 stop server.js`
+  * `pm2 save`
+  * `node server.js` to test before using pm2
+
 * MongoDB
   * https://github.com/mongodb/node-mongodb-native
   * https://docs.mongodb.com/manual/reference/mongo-shell/
