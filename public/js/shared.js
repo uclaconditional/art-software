@@ -1,5 +1,9 @@
 let metadata;
 
+$(document).ready(() => {
+  init();
+})
+
 const populateForm = () => {
   $.get('/metadata', (data) => {
     console.log(data)

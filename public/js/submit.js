@@ -1,4 +1,4 @@
-$(document).ready(() => {
+const init = () => {
   populateForm();
   $('#add-work').click(addWork);
   $('#works').sortable({
@@ -19,26 +19,41 @@ $(document).ready(() => {
       else window.location = '/magic';
     });
   }
-
-});
+};
 
 const submit = () => {
   if (!validate()) return false;
   $('form').hide();
   $('#uploading').show();
-  let formData = new FormData($('form')[0]);
-  $.ajax({
-    type: 'POST',
-    url: '/upload',
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: (res) => {
-      console.log(res);
-      $('#uploading').hide();
-      $('#thankyou').show();
+
+  let data = { works: [] };
+  $('#artist-data').find('input, textarea').each(function() {
+    if ($(this).attr('type') !== 'file') {
+      let prop = $(this).attr('id');
+      let val = $(this).val();
+      if (prop.includes('json') && val.length) val = JSON.parse(val);
+      data[prop] = val;
     }
-  })
+  });
+
+  $('#works li').each(function() {
+    $(this).find('input, textarea').each(function() {
+      let prop = $(this).attr('id');
+      let n = Number(prop[1]);
+      let i = $('#w'+n+'-work-order').val();
+      let val = $(this).val();
+      if (prop.includes('json') && val.length) val = JSON.parse(val);
+      if (!data.works[i]) data.works[i] = {};
+      data.works[i][prop.substring(3)] = val;
+    });
+  });
+  console.log(data);
+
+  $.post('/submit', data, (res) => {
+    console.log(res);
+    $('#uploading').hide();
+    $('#thankyou').show();
+  });
 };
 
 const displayForm = (res) => {
@@ -79,7 +94,7 @@ const validate = () => {
 const addWork = data => {
   let index = 'w'+$('.work').length;
   $('#works').append(workTemplate(index, data));
-  if (data['work-image']) $('#'+index+'-work-image-preview').attr('src', data['work-image'].path); // temp
+  // if (data['work-image']) $('#'+index+'-work-image-preview').attr('src', data['work-image'].path); // temp
   populateWork(index);
   $('#'+index+' .work-heading').click(toggleWork);
   reorderWorks();
@@ -109,11 +124,12 @@ const workTemplate = (index, data) => `
   <input type="text" id="${index}-work-city" name="${index}-work-city" value=${data['work-city'] ? data['work-city'] : ''}>
 
   <label for="${index}-work-image">Work Image:</label>
-  <input type="file" id="${index}-work-image" name="${index}-work-image" />
-  <img id="${index}-work-image-preview">
+  <input type="file" id="${index}-work-image" name="${index}-work-image" accept="image/*" onchange="handleFiles(this.id, this.files)">
+  <textarea type="text" id="${index}-work-image-json" name="${index}-work-image-json" readonly class="hidden">${JSON.stringify(data['work-image-json'])}</textarea>
+  <img id="${index}-work-image-preview" src="${data['work-image-json'].path}">
 
   <label for="${index}-work-video">Work Video:</label>
-  <input type="file" id="${index}-work-video" name="${index}-work-video" />
+  <input type="file" id="${index}-work-video" name="${index}-work-video">
 
   <label for="${index}-work-alt">Work Alt Text:</label>
   <textarea type="text" id="${index}-work-alt" name="${index}-work-alt">${data['work-alt'] ? data['work-alt'] : ''}</textarea>
@@ -148,6 +164,7 @@ const workTemplate = (index, data) => `
 const populateEntry = entry => {
   for (p in entry) {
     if (entry[p].fieldname) {
+      $('#'+entry[p].fieldname+'-json').val(JSON.stringify(entry[p])); // pend
       $('#'+entry[p].fieldname+'-preview').attr('src', entry[p].path);
     } else {
       $('#'+p).val(entry[p]);
@@ -164,10 +181,30 @@ function toggleWork() {
   else $(contents).hide();
 }
 
-function reorderWorks() {
+const reorderWorks = () => {
   let i = 0;
   $('#works li').each(function() {
     $(this).find('.work-order')[0].value = i;
     i++;
   });
 }
+
+
+const handleFiles = (prop, files) =>{
+  let fd = new FormData();
+  fd.append(prop,files[0]);
+  $.ajax({
+    type: 'POST',
+    url: '/upload',
+    data: fd,
+    processData: false,
+    contentType: false,
+    success: (res) => {
+      console.log(res);
+      if (res.length && res[0].fieldname) {
+        $('#'+res[0].fieldname+'-preview').attr('src', res[0].path);
+        $('#'+res[0].fieldname+'-json').val(JSON.stringify(res[0]));
+      }
+    }
+  })
+};

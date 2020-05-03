@@ -15,6 +15,7 @@ h1 {
 img {
   width: 10em;
   display: block;
+  margin-bottom: 1em;
 }
 
 input, textarea, select {
@@ -59,6 +60,10 @@ label[data-required='true']::after {
   background: yellow;
   padding: 1em;
   display: inline-block;
+}
+
+.hidden {
+  display: none;
 }
 
 /* visible only to screen readers */

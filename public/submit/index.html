@@ -4,8 +4,8 @@
     <title>Submit | Art + Software</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="/js/shared.js"></script>
     <script src="/js/submit.js"></script>
+    <script src="/js/shared.js"></script>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" type="image/jpeg" href="/favicon.jpg">
   </head>
@@ -22,72 +22,77 @@
       <div id='form' style='display:none'>
         <form method="POST"  action="javascript:submit()" enctype="multipart/form-data">
           <!-- ARTIST -->
-          <label for="artist-name" data-required="true">Artist Name:</label>
-          <input type="text" id="artist-name" name="artist-name">
+          <div id='artist-data'>
+            <label for="artist-name" data-required="true">Artist Name:</label>
+            <input type="text" id="artist-name" name="artist-name">
 
-          <label for="artist-email" data-required="true">Artist Email:</label>
-          <input type="email" id="artist-email" name="artist-email" readonly=true>
+            <label for="artist-email" data-required="true">Artist Email:</label>
+            <input type="email" id="artist-email" name="artist-email" readonly=true>
 
-          <label for="artist-url">Artist URL:</label>
-          <input type="url" id="artist-url" name="artist-url">
+            <label for="artist-url">Artist URL:</label>
+            <input type="url" id="artist-url" name="artist-url">
 
-          <label for="artist-bio" data-required="true">Artist Bio:</label>
-          <textarea type="text" id="artist-bio" name="artist-bio"></textarea>
+            <label for="artist-bio" data-required="true">Artist Bio:</label>
+            <textarea type="text" id="artist-bio" name="artist-bio"></textarea>
 
-          <label for="artist-country-residence">Artist Country of Residence:</label>
-          <select id="artist-country-residence" name="artist-country-residence">
-            <option value=""></option>
-          </select>
+            <label for="artist-country-residence">Artist Country of Residence:</label>
+            <select id="artist-country-residence" name="artist-country-residence">
+              <option value=""></option>
+            </select>
 
-          <label for="artist-city-residence">Artist City of Residency:</label>
-          <input type="text" id="artist-city-residence" name="artist-city-residence">
+            <label for="artist-city-residence">Artist City of Residency:</label>
+            <input type="text" id="artist-city-residence" name="artist-city-residence">
 
-          <label for="artist-country-birth">Artist Country of Birth:</label>
-          <select id="artist-country-birth" name="artist-country-birth">
-            <option value=""></option>
-          </select>
+            <label for="artist-country-birth">Artist Country of Birth:</label>
+            <select id="artist-country-birth" name="artist-country-birth">
+              <option value=""></option>
+            </select>
 
-          <label for="artist-year-birth">Artist Year of Birth:</label>
-          <input type="number" id="artist-year-birth" name="artist-year-birth">
+            <label for="artist-year-birth">Artist Year of Birth:</label>
+            <input type="number" id="artist-year-birth" name="artist-year-birth">
 
-          <label for="artist-gender">Artist Gender:</label>
-          <select id="artist-gender" name="artist-gender">
-            <option value=""></option>
-          </select>
+            <label for="artist-gender">Artist Gender:</label>
+            <select id="artist-gender" name="artist-gender">
+              <option value=""></option>
+            </select>
 
-          <label for="artist-interview-q1" data-required="true">Artist Interview Question 1</label>
-          <textarea type="text" id="artist-interview-q1" name="artist-interview-q1"></textarea>
+            <label for="artist-interview-q1" data-required="true">Artist Interview Question 1</label>
+            <textarea type="text" id="artist-interview-q1" name="artist-interview-q1"></textarea>
 
-          <label for="artist-interview-q2" data-required="true">Artist Interview Question 2</label>
-          <textarea type="text" id="artist-interview-q2" name="artist-interview-q2"></textarea>
-          
-          <label for="artist-interview-q3" data-required="true">Artist Interview Question 3</label>
-          <textarea type="text" id="artist-interview-q3" name="artist-interview-q3"></textarea>
+            <label for="artist-interview-q2" data-required="true">Artist Interview Question 2</label>
+            <textarea type="text" id="artist-interview-q2" name="artist-interview-q2"></textarea>
+            
+            <label for="artist-interview-q3" data-required="true">Artist Interview Question 3</label>
+            <textarea type="text" id="artist-interview-q3" name="artist-interview-q3"></textarea>
 
-          <label for="artist-interview-q4" data-required="true">Artist Interview Question 4</label>
-          <textarea type="text" id="artist-interview-q4" name="artist-interview-q4"></textarea>
+            <label for="artist-interview-q4" data-required="true">Artist Interview Question 4</label>
+            <textarea type="text" id="artist-interview-q4" name="artist-interview-q4"></textarea>
 
-          <label for="artist-image">Artist Image:</label>
-          <input type="file" id="artist-image" name="artist-image" />
-          <img id="artist-image-preview">
+            <label for="artist-image">Artist Image:</label>
+            <input type="file" id="artist-image" name="artist-image" accept="image/*" onchange="handleFiles(this.id, this.files)">
+            <textarea type="text" id="artist-image-json" name="artist-image-json" readonly class="hidden"></textarea>
+            <img id="artist-image-preview">
 
-          <label for="artist-desktop">Artist Desktop:</label>
-          <input type="file" id="artist-desktop" name="artist-desktop" />
-          <img id="artist-desktop-preview">
+            <label for="artist-desktop">Artist Desktop:</label>
+            <input type="file" id="artist-desktop" name="artist-desktop" accept="image/*" onchange="handleFiles(this.id, this.files)">
+            <textarea type="text" id="artist-desktop-json" name="artist-desktop-json" readonly class="hidden"></textarea>
+            <img id="artist-desktop-preview">
 
-          <label for="artist-studio">Artist Studio:</label>
-          <input type="file" id="artist-studio" name="artist-studio" />
-          <img id="artist-studio-preview">
+            <label for="artist-studio">Artist Studio:</label>
+            <input type="file" id="artist-studio" name="artist-studio" accept="image/*" onchange="handleFiles(this.id, this.files)">
+            <textarea type="text" id="artist-studio-json" name="artist-studio-json" readonly class="hidden"></textarea>
+            <img id="artist-studio-preview">
+
+            <!-- This is a hidden field for tracking ObjectId -->
+            <input type="text" id="_id" name="_id" style="display:none">
+          </div>
 
           <!-- WORK -->
           <ul id='works'></ul>
           <button type="button" id="add-work">Add Work</button>
 
-          <!-- This is a hidden field for tracking ObjectId -->
-          <input type="text" id="_id" name="_id" style="display:none">
-
           <div>
-              <input type="submit" value="submit" />
+              <input type="submit" value="submit">
           </div>
         </form>
         <div id="uploading" style="display:none">Uploading...</div>

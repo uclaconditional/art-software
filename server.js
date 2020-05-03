@@ -119,7 +119,8 @@ const login = (req, res) => {
 };
 
 const account = (req, res) => {
-  const auth = req.headers.authorization;
+  // pend: do we need this??
+  // const auth = req.headers.authorization;
   // if (!auth || !auth.startsWith('Bearer ')) {
   //   res.status(codes.FORBIDDEN).send({error: 'cannot verify jwt'});
   //   return;
@@ -152,42 +153,16 @@ const uploadHandler = multer({
   })
 });
 
-const upload = (req, res) => {
+const submit = (req, res) => {
   let doc = req.body;
-  Object.keys(doc).forEach((key) => (doc[key] == "") && delete doc[key]); // clean empty fields
-  console.log(doc);
   doc.timestamp = new Date().toISOString();
-  doc.works = [];
-
-  for (const prop in doc) {
-    if (/^w[0-9]/.test(prop)) {
-      let n = Number(prop[1]);
-      let i = Number(doc['w'+n+'-work-order']);
-      if (!doc.works[i]) doc.works[i] = {};
-      doc.works[i][prop.substring(3)] = doc[prop];
-    }
-  }
-
-  for (const f in req.files) {
-    let fieldname = req.files[f].fieldname;
-    if (/^w[0-9]/.test(fieldname)) {
-      let n = Number(fieldname[1]);
-      let i = Number(doc['w'+n+'-work-order']);
-      doc.works[i][fieldname.substring(3)] = req.files[f];
-    } else {
-      doc[fieldname] = req.files[f];
-    }
-  }
-
-  // remove all wN props
-  for (const prop in doc) {
-    if (/^w[0-9]/.test(prop)) {
-      delete(doc[prop]);
-    }
-  }
   if (doc._id) updateDocument(doc, res => {});
   else insertDocument(doc, res => {});
   res.json({success: true});
+};
+
+const upload = (req, res) => {
+  res.json(req.files);
 };
 
 /* SEARCH */
@@ -240,6 +215,7 @@ const metadata = (req, res) => {
 /* ROUTES */
 
 app.post('/upload', uploadHandler.any(), upload);
+app.post('/submit', submit);
 app.get('/metadata', metadata);
 app.post('/search', search);
 app.post('/login', login);
