@@ -181,24 +181,42 @@ const search = (req, res) => {
   if (req.body['artist-country-birth']) {
     query['artist-country-birth'] = req.body['artist-country-birth'];
   }
-  if (req.body['artist-year-birth']) {
-    query['artist-year-birth'] = req.body['artist-year-birth'];
+  if (req.body['artist-year-birth-start'] || req.body['artist-year-birth-end']) {
+    let ys = req.body['artist-year-birth-start'] || '0';
+    let ye = req.body['artist-year-birth-end'] || '3000';
+    query['artist-year-birth'] = { $gte: ys, $lte: ye };
   }
-  /* GENDER TODO */
+  if (req.body['artist-gender']) {
+    query['artist-gender'] = req.body['artist-gender'];
+  }
 
-  if (req.body['work-title']) {
-    query['work-title'] = { $regex: req.body['work-title'], $options: 'i' };
+  // WORKS
+  if (req.body['work-title'] || req.body['work-description'] || req.body['work-year-start'] || 
+  req.body['work-year-end'] || req.body['work-categories'] || req.body['work-software'] || req.body['work-code']) {
+    query.works = { $elemMatch: {} };
+    if (req.body['work-title']) {
+      query.works.$elemMatch['work-title'] = { $regex: req.body['work-title'], $options: 'i' };
+    }
+    if (req.body['work-description']) {
+      query.works.$elemMatch['work-description'] = { $regex: req.body['work-description'], $options: 'i' };
+    }
+    if (req.body['work-year-start'] || req.body['work-year-end']) {
+      let ys = req.body['work-year-start'] || '0';
+      let ye = req.body['work-year-end'] || '3000';
+      query.works.$elemMatch['work-year'] = { $gte: ys, $lte: ye };
+    }
+    if (req.body['work-categories']) {
+      query.works.$elemMatch['work-categories'] = req.body['work-categories'];
+    }
+    if (req.body['work-software']) {
+      query.works.$elemMatch['work-software'] = req.body['work-software'];
+    }
+    if (req.body['work-code']) {
+      query.works.$elemMatch['work-code'] = req.body['work-code'];
+    }
   }
-
-  if (req.body['work-year-start'] || req.body['work-year-end']) {
-    let ys = req.body['work-year-start'] || '0';
-    let ye = req.body['work-year-end'] || '3000';
-    query['work-year'] = { $gte: ys, $lte: ye };
-  }
-  
-  if (req.body['work-categories']) {
-    query['work-categories'] = req.body['work-categories'];
-  }
+  console.log("QUERY")
+  console.log(query)
   findDocuments(query, data => res.json(data));
 };
 
@@ -213,7 +231,6 @@ const metadata = (req, res) => {
 
 
 /* ROUTES */
-
 app.post('/upload', uploadHandler.any(), upload);
 app.post('/submit', submit);
 app.get('/metadata', metadata);

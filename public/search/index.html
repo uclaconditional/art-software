@@ -30,8 +30,14 @@
           <option value=""></option>
         </select>
 
-        <label for="artist-year-birth">Artist Year of Birth:</label>
-        <input type="number" id="artist-year-birth" name="artist-year-birth">
+        <label>Artist Year Birth Range:</label>
+        <div>
+          <label class='sr-only' for=artist-year-birth-start>Range Start:</label>
+          <input type="number" id="artist-year-birth-start" name="artist-year-birth-start" class='short'> to 
+          
+          <label class='sr-only' for=artist-birth-year-start>Range End:</label>
+          <input type="number" id="artist-year-birth-end" name="artist-year-birth-end" class='short'>
+        </div>
 
         <label for="artist-gender">Artist Gender:</label>
         <select id="artist-gender" name="artist-gender">
@@ -40,6 +46,9 @@
 
         <label for="work-title">Work Title:</label>
         <input type="text" id="work-title" name="work-title">
+
+        <label for="work-description">Work Description:</label>
+        <input type="text" id="work-description" name="work-description">
 
         <label>Work Year Range:</label>
         <div>
@@ -55,6 +64,15 @@
           <option value=""></option>
         </select>
 
+        <label for="work-software">Work Software:</label>
+        <select id="work-software" name="work-software">
+          <option value=""></option>
+        </select>
+
+        <label for="work-code">Work Code:</label>
+        <select id="work-code" name="work-code">
+          <option value=""></option>
+        </select>
         <div>
           <input type="submit" value="Submit">
         </div>

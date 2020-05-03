@@ -27,7 +27,7 @@ const submit = () => {
   $('#uploading').show();
 
   let data = { works: [] };
-  $('#artist-data').find('input, textarea').each(function() {
+  $('#artist-data').find('input, textarea, select').each(function() {
     if ($(this).attr('type') !== 'file') {
       let prop = $(this).attr('id');
       let val = $(this).val();
@@ -37,7 +37,7 @@ const submit = () => {
   });
 
   $('#works li').each(function() {
-    $(this).find('input, textarea').each(function() {
+    $(this).find('input, textarea, select').each(function() {
       let prop = $(this).attr('id');
       let n = Number(prop[1]);
       let i = $('#w'+n+'-work-order').val();
@@ -107,12 +107,12 @@ const workTemplate = (index, data) => `
   <label for="${index}-work-title" data-required="true">Work Title:</label>
   <input type="text" id="${index}-work-title" name="${index}-work-title" value="${data['work-title']}">
   
-  <input type="number" id="${index}-work-order" name="${index}-work-order" class='work-order'>
+  <input type="number" id="${index}-work-order" name="${index}-work-order" class='work-order hidden'>
   </div>
 
   <div class='work-contents'>
-  <label for="${index}-work-date" data-required="true">Date Work Completed:</label>
-  <input type="number" id="${index}-work-date" name="${index}-work-date" value="${data['work-date'] ? data['work-date'] : ''}">
+  <label for="${index}-work-year" data-required="true">Year Work Completed:</label>
+  <input type="number" id="${index}-work-year" name="${index}-work-year" value="${data['work-year'] ? data['work-year'] : ''}">
 
   <label for="${index}-work-description" data-required="true">Work Description:</label>
   <textarea type="text" id="${index}-work-description" name="${index}-work-description">${data['work-description'] ? data['work-description'] : ''}</textarea>

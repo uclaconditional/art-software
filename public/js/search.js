@@ -1,14 +1,13 @@
 let data;
 
-$(document).ready(() => {
+const init = () => {
   populateForm();
   $('#pdf').click(exportPDF);
-});
+}
 
 const submit = () => {
   console.log('submit')
   $.post('/search', $('form').serialize(), (res) => {
-  // $.post('/search', {'_id': ObjectId('5e9656a809b1a709bd28dfc9')}, (res) => {
     data = res;
     console.log(res);
     if (res.length) {
@@ -19,7 +18,7 @@ const submit = () => {
     $('#results-section').show();
     $('#pdf-section').show();
   })
-}
+};
 
 const project = data => {
   let elt = $('<div id="${data._id}" class="work"></div>');
@@ -35,7 +34,7 @@ const project = data => {
   }
   return elt[0].outerHTML;
 };
-// <img src="${data.files[0].path}" alt="${data['alt']}">
+
 const exportPDF = () => {
   if (!data) return;
   let doc = new jsPDF();
@@ -55,5 +54,5 @@ const exportPDF = () => {
     doc.addImage(img[0], 'JPEG', 20, y+5, 50, 50*img.height()/img.width());
   });
   doc.save('Test.pdf');
-}
+};
 
