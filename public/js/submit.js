@@ -74,7 +74,6 @@ const displayError = () => {
 };
 
 const validate = () => {
-  return true; // temp
   let errors = [];
   $('form input').each(function() {
     let label = $("label[for='" + $(this).attr('id') + "']");
@@ -94,8 +93,18 @@ const validate = () => {
 const addWork = data => {
   let index = 'w'+$('.work').length;
   $('#works').append(workTemplate(index, data));
-  // if (data['work-image']) $('#'+index+'-work-image-preview').attr('src', data['work-image'].path); // temp
   populateWork(index);
+
+  for (prop in data) {
+    if (Array.isArray(data[prop])) {
+      console.log(data[prop]);
+      let id = '#'+index+'-'+prop;
+      for (item of data[prop]) {
+        $(id+" option[value='" + item + "']").prop("selected", true);
+      }
+    }
+  } 
+
   $('#'+index+' .work-heading').click(toggleWork);
   reorderWorks();
 }
