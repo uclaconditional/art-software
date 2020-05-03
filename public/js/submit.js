@@ -20,6 +20,7 @@ $(document).ready(() => {
 });
 
 const submit = () => {
+  if (!validate()) return false;
   $('form').hide();
   $('#uploading').show();
   let formData = new FormData($('form')[0]);
@@ -59,11 +60,28 @@ const displayError = () => {
   $('#sorry').show();
 };
 
+const validate = () => {
+  let errors = [];
+  $('form input').each(function() {
+    let label = $("label[for='" + $(this).attr('id') + "']");
+    if (!$(this).val() && label.data('required')) errors.push(label.text());
+  });
+  $('form textarea').each(function() {
+    let label = $("label[for='" + $(this).attr('id') + "']");
+    if (!$(this).val() && label.data('required')) errors.push(label.text());
+  });
+  if (!errors.length) return true;
+  else {
+    alert('Please fill in the following:\n'+errors.join('\n'));
+    return false;
+  }
+}
+
 const addWork = data => {
   console.log('addwork')
   data['index'] = 'w'+$('.work').length;
   $('#works').append(workTemplate(data));
-  populateCategories(data['index']);
+  populateWork(data['index']);
 }
 
 const workTemplate = data => `
@@ -94,6 +112,15 @@ const workTemplate = data => `
 
   <label for="${data['index']}-work-categories">Work Categories:</label>
   <select id="${data['index']}-work-categories" name="${data['index']}-work-categories" multiple></select>
+
+  <label for="${data['index']}-work-software">Work Software:</label>
+  <select id="${data['index']}-work-software" name="${data['index']}-work-software" multiple></select>
+
+  <label for="${data['index']}-work-code">Work Code:</label>
+  <select id="${data['index']}-work-code" name="${data['index']}-work-code" multiple></select>
+
+  <label for="${data['index']}-work-codesnippet">Code Snippet:</label>
+  <textarea type="text" id="${data['index']}-work-codesnippet" name="${data['index']}-work-codesnippet"></textarea>
 
   <label for="${data['index']}-work-interview-q1" data-required="true">Work Interview Question 1?</label>
   <textarea type="text" id="${data['index']}-work-interview-q1" name="${data['index']}-work-interview-q1"></textarea>

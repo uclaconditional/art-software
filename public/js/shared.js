@@ -1,3 +1,4 @@
+// TODO: move this to db
 const countries = ["Internet", "Afghanistan","Åland Islands","Albania","Algeria","American Samoa","Andorra","Angola","Anguilla",
 "Antarctica","Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan",
 "Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan",
@@ -33,7 +34,7 @@ const countries = ["Internet", "Afghanistan","Åland Islands","Albania","Algeria
 "Uzbekistan","Vanuatu","Venezuela","Viet Nam","Virgin Islands, British","Virgin Islands, United States",
 "Wallis and Futuna","Western Sahara","Yemen","Zambia","Zimbabwe"];
 
-const genders = [ // TOD: taken from FB list, need to review
+const genders = [ // TODO: taken from FB list, need to review, move to DB
   "Agender", "Androgyne", "Androgynous", "Bigender", "Cis", "Cisgender", "Cis Female", "Cis Male", "Cis Man",
   "Cis Woman", "Cisgender Female", "Cisgender Male", "Cisgender Man", "Cisgender Woman", "Female to Male", "FTM",
   "Gender Fluid", "Gender Nonconforming", "Gender Questioning", "Gender Variant", "Genderqueer", "Intersex",
@@ -44,11 +45,12 @@ const genders = [ // TOD: taken from FB list, need to review
   "Transsexual Man", "Transsexual Person", "Transsexual Woman", "Two-Spirit"
 ];
 
-let categories;
+let metadata;
 
 const populateForm = () => {
   $.get('/metadata', (data) => {
-    categories = data.categories;
+    console.log(data)
+    metadata = data;
   });
 
   countries.forEach(c => {
@@ -61,10 +63,14 @@ const populateForm = () => {
   });
 };
 
-const populateCategories = (ind) => {
-  console.log(ind)
-  console.log(categories)
-  categories.forEach(c => {
+const populateWork = (ind) => {
+  metadata.categories.forEach(c => {
     $('#'+ind+'-work-categories').append('<option value="'+c+'">'+c+'</option>');
+  });
+  metadata.software.forEach(c => {
+    $('#'+ind+'-work-software').append('<option value="'+c+'">'+c+'</option>');
+  });
+  metadata.code.forEach(c => {
+    $('#'+ind+'-work-code').append('<option value="'+c+'">'+c+'</option>');
   });
 }
