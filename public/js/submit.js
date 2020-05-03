@@ -1,5 +1,6 @@
 $(document).ready(() => {
   populateForm();
+  $('#add-work').click(addWork);
 
   const token = window.location.search.substring(1);
   if (token) {
@@ -57,3 +58,53 @@ const displayForm = (res) => {
 const displayError = () => {
   $('#sorry').show();
 };
+
+const addWork = data => {
+  console.log('addwork')
+  data['index'] = 'w'+$('.work').length;
+  $('#works').append(workTemplate(data));
+  populateCategories(data['index']);
+}
+
+const workTemplate = data => `
+<div class='work' id='${data['index']}'>
+  <label for="${data['index']}-work-title" data-required="true">Work Title:</label>
+  <input type="text" id="${data['index']}-work-title" name="${data['index']}-work-title" value="${data['title']}">
+
+  <label for="${data['index']}-work-date" data-required="true">Date Work Completed:</label>
+  <input type="number" id="${data['index']}-work-date" name="${data['index']}-work-date">
+
+  <label for="${data['index']}-work-description" data-required="true">Work Description:</label>
+  <textarea type="text" id="${data['index']}-work-description" name="${data['index']}-work-description"></textarea>
+
+  <label for="${data['index']}-work-credits">Work Credits:</label>
+  <textarea type="text" id="${data['index']}-work-credits" name="${data['index']}-work-credits"></textarea>
+
+  <label for="${data['index']}-work-city" data-required="true">Primary City Where Work Was Created:</label>
+  <input type="number" id="${data['index']}-work-city" name="${data['index']}-work-city">
+
+  <label for="${data['index']}-work-image">Work Image:</label>
+  <input type="file" id="${data['index']}-work-image" name="${data['index']}-work-image" multiple />
+
+  <label for="${data['index']}-work-video">Work Video:</label>
+  <input type="file" id="${data['index']}-work-video" name="${data['index']}-work-video" />
+
+  <label for="${data['index']}-work-alt">Work Alt Text:</label>
+  <textarea type="text" id="${data['index']}-work-alt" name="${data['index']}-work-alt"></textarea>
+
+  <label for="${data['index']}-work-categories">Work Categories:</label>
+  <select id="${data['index']}-work-categories" name="${data['index']}-work-categories" multiple></select>
+
+  <label for="${data['index']}-work-interview-q1" data-required="true">Work Interview Question 1?</label>
+  <textarea type="text" id="${data['index']}-work-interview-q1" name="${data['index']}-work-interview-q1"></textarea>
+
+  <label for="${data['index']}-work-interview-q2" data-required="true">Work Interview Question 2?</label>
+  <textarea type="text" id="${data['index']}-work-interview-q2" name="${data['index']}-work-interview-q2"></textarea>
+
+  <label for="${data['index']}-work-interview-q3" data-required="true">Work Interview Question 3?</label>
+  <textarea type="text" id="${data['index']}-work-interview-q3" name="${data['index']}-work-interview-q3"></textarea>
+
+  <label for="${data['index']}-work-interview-q4" data-required="true">Work Interview Question 4?</label>
+  <textarea type="text" id="${data['index']}-work-interview-q4" name="${data['index']}-work-interview-q4"></textarea>
+</div>
+`;

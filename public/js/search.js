@@ -32,13 +32,13 @@ const project = data => `
   <div>${data['artist-country-birth']}</div>
   <div>${data['artist-year-birth']}</div>
   <div>${data['artist-gender']}</div>
-  <div>${data['work-title']}</div>
-  <div>${data['work-year']}</div>
-  <div>${data['work-description']}</div>
-  <div>${data['work-categories']}</div>
+  <div>${data['title']}</div>
+  <div>${data['year']}</div>
+  <div>${data['description']}</div>
+  <div>${data['categories']}</div>
 </div>
 `;
-// <img src="${data.files[0].path}" alt="${data['work-alt']}">
+// <img src="${data.files[0].path}" alt="${data['alt']}">
 const exportPDF = () => {
   if (!data) return;
   let doc = new jsPDF();

@@ -48,6 +48,12 @@ input[type='submit'] {
   display: inline;
 }
 
+label[data-required='true']::after {
+  content: "*";
+  color: red;
+  font-weight: bold;
+}
+
 /* visible only to screen readers */
 .sr-only {
   border: 0 !important;
