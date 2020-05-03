@@ -3,6 +3,7 @@
   <head>
     <title>Submit | Art + Software</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/js/shared.js"></script>
     <script src="/js/submit.js"></script>
     <link rel="stylesheet" href="/css/style.css">
@@ -68,15 +69,18 @@
 
           <label for="artist-image">Artist Image:</label>
           <input type="file" id="artist-image" name="artist-image" />
+          <img id="artist-image-preview">
 
           <label for="artist-desktop">Artist Desktop:</label>
           <input type="file" id="artist-desktop" name="artist-desktop" />
+          <img id="artist-desktop-preview">
 
           <label for="artist-studio">Artist Studio:</label>
           <input type="file" id="artist-studio" name="artist-studio" />
+          <img id="artist-studio-preview">
 
           <!-- WORK -->
-          <div id='works'></div>
+          <ul id='works'></ul>
           <button type="button" id="add-work">Add Work</button>
 
           <!-- This is a hidden field for tracking ObjectId -->

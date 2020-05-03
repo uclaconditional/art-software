@@ -1,5 +1,3 @@
-import { ObjectId } from "mongodb";
-
 let data;
 
 $(document).ready(() => {
@@ -12,6 +10,7 @@ const submit = () => {
   $.post('/search', $('form').serialize(), (res) => {
   // $.post('/search', {'_id': ObjectId('5e9656a809b1a709bd28dfc9')}, (res) => {
     data = res;
+    console.log(res);
     if (res.length) {
       $('#results').html(res.map(project).join(''));
     } else {
@@ -22,22 +21,20 @@ const submit = () => {
   })
 }
 
-const project = data => `
-<div id="${data._id}" class="work">
-  <div>${data['artist-name']}</div>
-  <div><a href="mailto:${data['artist-email']}">${data['artist-email']}</a></div>
-  <div><a href="${data['artist-url']}">${data['artist-url']}</a></div>
-  <div>${data['artist-bio']}</div>
-  <div>${data['artist-country-residence']}</div>
-  <div>${data['artist-country-birth']}</div>
-  <div>${data['artist-year-birth']}</div>
-  <div>${data['artist-gender']}</div>
-  <div>${data['title']}</div>
-  <div>${data['year']}</div>
-  <div>${data['description']}</div>
-  <div>${data['categories']}</div>
-</div>
-`;
+const project = data => {
+  let elt = $('<div id="${data._id}" class="work"></div>');
+  for (p in data) {
+    if (p !== 'works')
+      elt.append('<div id="'+p+'">'+p+': '+data[p]+'</div>');
+  }
+  for (w in data.works) {
+    elt.append('<br>');
+    for (p in data.works[w]) {
+      elt.append('<div id="'+p+'">'+p+': '+data.works[w][p]+'</div>');
+    }
+  }
+  return elt[0].outerHTML;
+};
 // <img src="${data.files[0].path}" alt="${data['alt']}">
 const exportPDF = () => {
   if (!data) return;

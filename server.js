@@ -23,37 +23,20 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(cookieParser());
-app.use(session({
+app.use(session({ // todo: check these
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: { secure: 'auto', maxAge: 24*60*60*1000 } // 24 hours
 }));
 
-app.use(function (req, res, next) {
-  if (!req.session.views) {
-    req.session.views = {}
-  }
-
-  // get the url pathname
-  var pathname = parseurl(req).pathname
-
-  // count the views
-  req.session.views[pathname] = (req.session.views[pathname] || 0) + 1
-
-  next()
-})
-
-app.get('/foo', function (req, res) {
-  res.send('you viewed this page: ' + req.session.authenticated);
-})
-app.get('/bar', function (req, res) {
-  res.send('you viewed this page ' + req.session.views['/bar'] + ' times')
-});
-
 app.get('/authenticated', function (req, res) {
+  console.log(req.session)
   if (req.session.authenticated) res.json({success: true, email: req.session.authenticated});
-  else res.json({success: false});
+  else {
+    req.session.destroy();
+    res.json({success: false});
+  }
 })
 
 /* DATABASE */
@@ -153,8 +136,9 @@ const account = (req, res) => {
   if (!decoded.hasOwnProperty('email')) {
     res.json({succes: false, code: codes.FORBIDDEN, error: 'invalid jwt token'});
   }
-  console.log(decoded);
   req.session.authenticated = decoded.email;
+  req.session.save();
+  console.log('session saved '+req.session.authenticated )
   res.json({success: true, email: decoded.email});
 };
 
@@ -173,7 +157,34 @@ const upload = (req, res) => {
   Object.keys(doc).forEach((key) => (doc[key] == "") && delete doc[key]); // clean empty fields
   console.log(doc);
   doc.timestamp = new Date().toISOString();
-  doc.files = req.files;
+  doc.works = [];
+
+  for (const prop in doc) {
+    if (/^w[0-9]/.test(prop)) {
+      let n = Number(prop[1]);
+      let i = Number(doc['w'+n+'-work-order']);
+      if (!doc.works[i]) doc.works[i] = {};
+      doc.works[i][prop.substring(3)] = doc[prop];
+    }
+  }
+
+  for (const f in req.files) {
+    let fieldname = req.files[f].fieldname;
+    if (/^w[0-9]/.test(fieldname)) {
+      let n = Number(fieldname[1]);
+      let i = Number(doc['w'+n+'-work-order']);
+      doc.works[i][fieldname.substring(3)] = req.files[f];
+    } else {
+      doc[fieldname] = req.files[f];
+    }
+  }
+
+  // remove all wN props
+  for (const prop in doc) {
+    if (/^w[0-9]/.test(prop)) {
+      delete(doc[prop]);
+    }
+  }
   if (doc._id) updateDocument(doc, res => {});
   else insertDocument(doc, res => {});
   res.json({success: true});

@@ -14,6 +14,7 @@ h1 {
 
 img {
   width: 10em;
+  display: block;
 }
 
 input, textarea, select {
@@ -34,7 +35,7 @@ input[type='submit'] {
 
 .work {
   width: 40em;
-  display: inline-block;
+  display: block;
   margin-left: 2em;
   margin-bottom: 2em;
   vertical-align: top;
@@ -52,6 +53,12 @@ label[data-required='true']::after {
   content: "*";
   color: red;
   font-weight: bold;
+}
+
+.work-heading {
+  background: yellow;
+  padding: 1em;
+  display: inline-block;
 }
 
 /* visible only to screen readers */
