@@ -34,6 +34,7 @@ MongoClient.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTop
 });
 
 const insertDocument = function(doc, callback) {
+  delete doc._id;
   const collection = db.collection('art-software');
   collection.insertOne(doc)
   .then((obj) => {
@@ -60,6 +61,7 @@ const updateDocument = function(doc, callback) {
     .catch((err) => { console.log('Error: ' + err); });
 };
 
+
 const findDocuments = function(query, callback) {
   const collection = db.collection('art-software');
   collection.find(query).toArray((err, docs) => {
@@ -67,6 +69,30 @@ const findDocuments = function(query, callback) {
     console.log(docs)
     callback(docs);
   });
+};
+
+const aggregateDocuments = function(query, callback) {
+  const collection = db.collection('art-software');
+  let match = {};
+  for (prop in query.works.$elemMatch) {
+    match['works.'+prop] = query.works.$elemMatch[prop];
+  }
+  collection.aggregate([ // this is messy!
+    { '$match': query }]).toArray((err, docs) => {
+      collection.aggregate([
+        { '$match': query }, 
+        { '$unwind': '$works' },
+        { '$match': match},
+        { $group: {_id: '$_id', 'works': {'$push': '$works'} }}
+      ]).toArray((err, works_docs) => {
+        assert.equal(err, null);
+        for (d in docs) {
+          docs[d].works = [];
+          docs[d].works = works_docs[d].works;
+        }
+        callback(docs);
+      });
+    });
 };
 
 /* MAGIC LINK EMAIL */
@@ -148,7 +174,7 @@ const uploadHandler = multer({
 const submit = (req, res) => {
   let doc = req.body;
   doc.timestamp = new Date().toISOString();
-  if (doc._id) updateDocument(doc, res => {});
+  if (doc._id && doc._id.length) updateDocument(doc, res => {});
   else insertDocument(doc, res => {});
   res.json({success: true});
 };
@@ -161,6 +187,8 @@ const upload = (req, res) => {
 const search = (req, res) => {
   console.log(req.body);
   let query = {};
+  let filter = {};
+  
   if (req.body['artist-email']) {
     query['artist-email'] = { $regex: req.body['artist-email']};
   }
@@ -206,9 +234,10 @@ const search = (req, res) => {
     if (req.body['work-code']) {
       query.works.$elemMatch['work-code'] = req.body['work-code'];
     }
+    aggregateDocuments(query, data => res.json(data));
+  } else {
+    findDocuments(query, data => res.json(data));
   }
-  console.log(query)
-  findDocuments(query, data => res.json(data));
 };
 
 /* METADATA */

@@ -41,7 +41,7 @@ const submit = () => {
       let n = Number(prop[1]);
       let i = $('#w'+n+'-work-order').val();
       let val = $(this).val();
-      if (prop.includes('json') && val.length) val = JSON.parse(val);
+      if (prop.includes('json') && val.length) { console.log('val'); console.log(val); val = JSON.parse(val); }
       if (!data.works[i]) data.works[i] = {};
       data.works[i][prop.substring(3)] = val;
     });
@@ -112,7 +112,7 @@ const workTemplate = (index, data) => `
 
   <div class='work-heading'>
   <label for="${index}-work-title" data-required="true">Work Title:</label>
-  <input type="text" id="${index}-work-title" name="${index}-work-title" value="${data['work-title']}">
+  <input type="text" id="${index}-work-title" name="${index}-work-title" value="${data['work-title'] ? data['work-title'] : ''}">
   
   <input type="number" id="${index}-work-order" name="${index}-work-order" class='work-order hidden'>
   </div>
@@ -132,8 +132,8 @@ const workTemplate = (index, data) => `
 
   <label for="${index}-work-image">Work Image:</label>
   <input type="file" id="${index}-work-image" name="${index}-work-image" accept="image/*" onchange="handleFiles(this.id, this.files)">
-  <textarea type="text" id="${index}-work-image-json" name="${index}-work-image-json" readonly class="hidden">${JSON.stringify(data['work-image-json'])}</textarea>
-  <img id="${index}-work-image-preview" src="${data['work-image-json'].path}">
+  <textarea type="text" id="${index}-work-image-json" name="${index}-work-image-json" readonly class="hidden">${data['work-image-json'] ? JSON.stringify(data['work-image-json']) : ''}</textarea>
+  <img id="${index}-work-image-preview" src="${data['work-image-json'] ? data['work-image-json'].path : ''}">
 
   <label for="${index}-work-video">Work Video:</label>
   <input type="file" id="${index}-work-video" name="${index}-work-video">

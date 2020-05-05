@@ -1,6 +1,7 @@
 
-$(document).ready(() => {
-});
+const init = () => {
+
+}
 
 const submit = () => {
   console.log('submit')

@@ -7,7 +7,7 @@ $(document).ready(() => {
 const populateForm = () => {
   $.get('/metadata', (data) => {
     metadata = data;
-    init();
+   init();
 
     metadata.countries.forEach(c => {
       $('#artist-country-residence').append('<option value="'+c+'">'+c+'</option>');
