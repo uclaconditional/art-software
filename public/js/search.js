@@ -1,7 +1,6 @@
 let data;
 
 const init = () => {
-  populateForm();
   $('#pdf').click(exportPDF);
 }
 
@@ -21,15 +20,24 @@ const submit = () => {
 };
 
 const project = data => {
-  let elt = $('<div id="${data._id}" class="work"></div>');
+  let elt = $('<div id="${data._id}" class="artist"></div>');
   for (p in data) {
-    if (p !== 'works')
-      elt.append('<div id="'+p+'">'+p+': '+data[p]+'</div>');
+    if (p !== '_id' && p !== 'works' && data[p]) {
+      if (p.includes('json')) {
+        elt.append('<div id="'+p+'">'+p.substring(0, p.length-5)+':</div>');
+        elt.append('<img src="'+data[p].path+'">');
+      } else elt.append('<div id="'+p+'">'+p+': '+data[p]+'</div>');
+    }
   }
   for (w in data.works) {
     elt.append('<br>');
     for (p in data.works[w]) {
-      elt.append('<div id="'+p+'">'+p+': '+data.works[w][p]+'</div>');
+      if (data.works[w][p]) {
+        if (p.includes('json')) {
+          elt.append('<div id="'+p+'">'+p.substring(0, p.length-5)+':</div>');
+          elt.append('<img src="'+data.works[w][p].path+'">');
+        } else elt.append('<div id="'+p+'">'+p+': '+data.works[w][p]+'</div>');
+      }
     }
   }
   return elt[0].outerHTML;

@@ -1,5 +1,4 @@
 const init = () => {
-  populateForm();
   $('#add-work').click(addWork);
   $('#works').sortable({
     update: reorderWorks
@@ -13,7 +12,7 @@ const init = () => {
       else displayError(res);
     });
   } else {
-    $.get('/authenticated', (res) => {
+    $.get('/authenticate', (res) => {
       console.log(res)
       if (res.success) displayForm(res);
       else window.location = '/magic';
@@ -97,7 +96,6 @@ const addWork = data => {
 
   for (prop in data) {
     if (Array.isArray(data[prop])) {
-      console.log(data[prop]);
       let id = '#'+index+'-'+prop;
       for (item of data[prop]) {
         $(id+" option[value='" + item + "']").prop("selected", true);
@@ -184,11 +182,11 @@ const populateEntry = entry => {
   }
 };
 
-function toggleWork() {
-  let contents = $(this).parent().find('.work-contents')[0];
+const toggleWork = (e) => {
+  let contents = $(e.currentTarget).parent().find('.work-contents')[0];
   if ($(contents).is(":hidden")) $(contents).show();
   else $(contents).hide();
-}
+};
 
 const reorderWorks = () => {
   let i = 0;
@@ -197,7 +195,6 @@ const reorderWorks = () => {
     i++;
   });
 }
-
 
 const handleFiles = (prop, files) =>{
   let fd = new FormData();

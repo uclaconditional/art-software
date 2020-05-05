@@ -11,12 +11,8 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const parseurl = require('parseurl');
-
-let db;
-let hos
-
 require('dotenv').config();
+let db;
 
 app.listen(process.env.PORT, () => console.log(`Example app listening on `+process.env.PORT));
 app.use(express.static(path.join(__dirname, 'public')))
@@ -29,15 +25,6 @@ app.use(session({ // todo: check these
   saveUninitialized: false,
   cookie: { secure: 'auto', maxAge: 24*60*60*1000 } // 24 hours
 }));
-
-app.get('/authenticated', function (req, res) {
-  console.log(req.session)
-  if (req.session.authenticated) res.json({success: true, email: req.session.authenticated});
-  else {
-    req.session.destroy();
-    res.json({success: false});
-  }
-})
 
 /* DATABASE */
 MongoClient.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
@@ -70,9 +57,7 @@ const updateDocument = function(doc, callback) {
       console.log('Updated - ' + obj);
       callback(obj);
     })
-    .catch((err) => {
-        console.log('Error: ' + err);
-    })
+    .catch((err) => { console.log('Error: ' + err); });
 };
 
 const findDocuments = function(query, callback) {
@@ -111,7 +96,6 @@ const login = (req, res) => {
     html: 'Hello, <a href="'+url+'">click here to submit!</a>'
   };
 
-  console.log(mailOpts)
   transporter.sendMail(mailOpts, (err, info) => {
     if(err) return res.status(codes.INTERNAL_SERVER_ERROR).send({error: 'cannot send mail'});
     else return res.status(codes.OK).send({message: 'email has been sent'});
@@ -143,6 +127,14 @@ const account = (req, res) => {
   res.json({success: true, email: decoded.email});
 };
 
+const authenticate = (req, res) => {
+  console.log(req.session)
+  if (req.session.authenticated) res.json({success: true, email: req.session.authenticated});
+  else {
+    req.session.destroy();
+    res.json({success: false});
+  }
+};
 
 /* UPLOADS */
 const uploadHandler = multer({
@@ -215,7 +207,6 @@ const search = (req, res) => {
       query.works.$elemMatch['work-code'] = req.body['work-code'];
     }
   }
-  console.log("QUERY")
   console.log(query)
   findDocuments(query, data => res.json(data));
 };
@@ -231,9 +222,10 @@ const metadata = (req, res) => {
 
 
 /* ROUTES */
-app.post('/upload', uploadHandler.any(), upload);
-app.post('/submit', submit);
-app.get('/metadata', metadata);
-app.post('/search', search);
 app.post('/login', login);
 app.post('/account', account);
+app.get('/authenticate', authenticate);
+app.post('/upload', uploadHandler.any(), upload);
+app.post('/submit', submit);
+app.post('/search', search);
+app.get('/metadata', metadata);

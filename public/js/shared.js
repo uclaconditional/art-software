@@ -1,13 +1,13 @@
 let metadata;
 
 $(document).ready(() => {
-  init();
-})
+  populateForm();
+});
 
 const populateForm = () => {
   $.get('/metadata', (data) => {
-    console.log(data)
     metadata = data;
+    init();
 
     metadata.countries.forEach(c => {
       $('#artist-country-residence').append('<option value="'+c+'">'+c+'</option>');
@@ -26,7 +26,6 @@ const populateForm = () => {
       $('#work-code').append('<option value="'+c+'">'+c+'</option>');
     });
   });
-
 };
 
 const populateWork = (ind) => {
